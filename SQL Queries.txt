@@ -1,0 +1,36 @@
+select * from Recruiter_Performance_Data
+
+--Aggregate Metrics by Quarter and Recruiter:
+SELECT 
+    Recruiter_ID,
+    Recruiter_Name,
+    Department,
+    Quarter,
+    SUM(Submissions) AS Total_Submissions,
+    SUM(Interviews) AS Total_Interviews,
+    SUM(Offers) AS Total_Offers,
+    SUM(Hires) AS Total_Hires,
+    AVG(Avg_Time_to_Hire_days) AS Avg_Time_to_Hire,
+    AVG(Offer_Acceptance_Rate) AS Avg_Offer_Acceptance_Rate,
+    AVG(Interview_to_Hire_Ratio) AS Avg_Interview_to_Hire_Ratio
+FROM recruiter_performance_data
+GROUP BY Recruiter_ID, Recruiter_Name, Department, Quarter
+ORDER BY Quarter, Department;
+
+--Top Recruiters by Hires:
+SELECT TOP 10 
+    Recruiter_Name,
+    SUM(Hires) AS Total_Hires
+FROM recruiter_performance_data
+GROUP BY Recruiter_Name
+ORDER BY Total_Hires DESC;
+
+--Performance by Department:
+SELECT 
+    Department,
+    SUM(Hires) AS Total_Hires,
+    AVG(Avg_Time_to_Hire_days) AS Avg_Time_to_Hire
+FROM recruiter_performance_data
+GROUP BY Department
+ORDER BY Total_Hires DESC;
+
